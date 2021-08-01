@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import useLocalStorage from './hooks/useLocalStorage';
 import { v4 as uuidv4 } from 'uuid';
 
 import ContactForm from './Components/ContactForm';
@@ -11,16 +12,13 @@ const defaultContacts =[
     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
+
+
   
 const App = () => {
-  const [contacts, setContacts] = useState(JSON.parse(
-    window.localStorage.getItem('contacts')
-  ) ?? defaultContacts);
+  const [contacts, setContacts] = useLocalStorage('contacts', defaultContacts);
   const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts])
 
   const handleAddContacts = (name, number) => {
     const contact = {
